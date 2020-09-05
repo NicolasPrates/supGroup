@@ -19,7 +19,10 @@ public class Principal {
             
             Token t = null;
             while ((t = lex.nextToken()).getType() != Token.EOF) {
-                System.out.println("<" + AlLexer.VOCABULARY.getDisplayName(t.getType()) + "," + t.getText() + ">");
+                if("PALAVRA_CHAVE" == AlLexer.VOCABULARY.getDisplayName(t.getType()))
+                    System.out.println("<'" + t.getText() + "','" + t.getText() + "'>");
+                else 
+                    System.out.println("<'" + t.getText() + "'," + AlLexer.VOCABULARY.getDisplayName(t.getType()) + ">");
             }
             
         } catch (IOException ex) {

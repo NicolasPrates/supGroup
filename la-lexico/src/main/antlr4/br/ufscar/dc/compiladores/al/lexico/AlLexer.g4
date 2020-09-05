@@ -1,29 +1,33 @@
 lexer grammar AlLexer;
 
-PALAVRA_CHAVE: 'DECLARACOES' | 'ALGORITMO' | 'INT' | 'REAL' 
-             | 'ATRIBUIR' | 'A' | 'LER' | 'IMPRIMIR' | 'SE' | 'ENTAO' 
-	     | 'ENQUANTO' | 'INICIO' | 'FIM' | 'E' | 'OU';
- 
-NUMINT: ('+'|'-')?('0'..'9')+;
+PALAVRA_CHAVE: 'algoritmo' | 'fim_algoritmo' | 
+               'var' | 'declare' | 'escreva' | ':' | 
+               'funcao' | 'fim_funcao' | 'procedimento' | 'fim_procedimento' |
+               'literal' | 'inteiro' | 'real' | 'logico' | 'constante' |
+               'verdadeiro' | 'falso' |
+               'registro' | 'fim_registro' |
+               'tipo' | 
+               'leia' | 'escreva' | 'se' | 'entao' | 'senao' | 'fim_se' |
+               'caso' | 'seja' | 'fim_caso' | 'retorne' |
+               'para' | 'ate' | 'faca' | 'fim_para' | 'ate' |
+               '+' | '-' | '*' | '%' | '/' | '&' | 'ou' | 'e' | 
+               '>' | '>=' | '<' | '<=' | '<>' | '=' |
+               '(' | ')' | ',' | '.' | '[' | ']' |
+               '<-' | '->' ;
 
-NUMREAL: ('+'|'-')?('0'..'9')+ ('.' ('0'..'9')+)?;
+NUM_INT: ('0'..'9')+;
 
-VARIAVEL: ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'0'..'9')*;
+NUM_REAL: ('0'..'9')+ ('.' ('0'..'9')+)?;
 
-CADEIA: '\'' ( ESC_SEQ | ~('\''|'\\') )* '\'';
+
+IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+
+CADEIA: '"' (ESC_SEQ | ~('"' |'\\') )* '"';
+
 
 fragment
-ESC_SEQ: '\\\'';
+ESC_SEQ: '\\"';
 
-COMENTARIO: '%' ~('\n'|'\r')* '\r'? '\n' {skip();};
+COMENTARIO: '{' ~('\n' | '\r')* '}' -> skip;
 
 WS: ( ' ' | '\t' | '\r' | '\n') {skip();};
-
-OP_REL: '>' | '>=' | '<' | '<=' | '<>' | '=';
-
-OP_ARIT: '+' | '-' | '*' | '/';
-
-DELIM:':';
-
-ABREPAR: '(';
-FECHAPAR: ')';
