@@ -22,18 +22,30 @@ PALAVRA_CHAVE: 'algoritmo' | 'fim_algoritmo' |
 */
 IDENT: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
+fragment
+ESC_SEQ: '\\"';
+
 /* 
 *    Toda string começa e termina com aspas e pode ter qualquer coisa que não seja
 *    aspas, a menos que esta tenho um scape antecedente
 */
-fragment
-ESC_SEQ: '\\"';
-CADEIA: '"' (ESC_SEQ | ~('"') )* '"';
+CADEIA: '"' (ESC_SEQ | ~('"' | '\n') )* '"';
+
+/*
+*    Cadeias não fechadas devem gerar essa token especial que imprimirá um erro
+*/
+CADEIA_NAO_FECHADA: '"' (ESC_SEQ | ~('"') )* '\n';
+
 
 /*
 *    Comentários não geram tokens e são limitados por chaves
 */
 COMENTARIO: '{' ~('\n' | '\r' | '}')* '}' -> skip; 
+
+/*
+*    Comentários não fechados devem gerar essa token especial que imprimirá um erro
+*/
+COMENTARIO_NAO_FECHADO: '{' ~('\n' | '\r' | '}')* '\n'; 
 
 
 /*
@@ -47,6 +59,11 @@ NUM_INT: ('0'..'9')+;
 NUM_REAL: ('0'..'9')+ ('.' ('0'..'9')+)?;
 
 /*
-*     Evita erros ao encontrar espaços, tabs e quebras de linha
+*     Evita erros ao encontrar espaços, tabs ...
 */
 WS: ( ' ' | '\t' | '\r' | '\n') {skip();};
+
+/*
+*     Se todas as regras falharem então retorne um undefiened char
+*/
+UNDEFINED_CHAR: .;
