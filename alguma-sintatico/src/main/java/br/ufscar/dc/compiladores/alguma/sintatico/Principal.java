@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.Token;
 public class Principal {
     public static void main(String args[]) throws IOException {
         CharStream cs = CharStreams.fromFileName(args[0]);
-        AlgumaLexer lexer = new AlgumaLexer(cs);
+        alLexer lexer = new AlLexer(cs);
 
         // Descomentar para depurar o Léxico
 //        Token t = null;

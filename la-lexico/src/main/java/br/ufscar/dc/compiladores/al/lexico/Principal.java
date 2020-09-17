@@ -68,9 +68,63 @@ public class Principal {
                     
                     // quando temos uma palavra chave devemos gerar um token to tipo
                     // <"valor", "valor">, esse if cuida disso
-                    else if("PALAVRA_CHAVE".equals(AlLexer.VOCABULARY.getDisplayName(t.getType()))){
-                        myWriter.write("<'" + t.getText() + "','" + t.getText() + "'>\n");
-                    }
+                    else if( "algoritmo".equals(t.getText()) ||
+                            "fim_algoritmo".equals(t.getText()) ||
+                            "declare".equals(t.getText()) ||
+                            "constante".equals(t.getText()) ||
+                            "tipo".equals(t.getText()) ||
+                            "literal".equals(t.getText()) ||
+                            "inteiro".equals(t.getText()) ||
+                            "real".equals(t.getText()) ||
+                            "logico".equals(t.getText()) ||
+                            "verdadeiro".equals(t.getText()) ||
+                            "falso".equals(t.getText()) ||
+                            "registro".equals(t.getText()) ||
+                            "fim_registro".equals(t.getText()) ||
+                            "procedimento".equals(t.getText()) ||
+                            "fim_procedimento".equals(t.getText()) ||
+                            "funcao".equals(t.getText()) ||
+                            "fim_funcao".equals(t.getText()) ||
+                            "var".equals(t.getText()) ||
+                            "leia".equals(t.getText()) ||
+                            "escreva".equals(t.getText()) ||
+                            "entao".equals(t.getText()) ||
+                            "senao".equals(t.getText()) ||
+                            "fim_se".equals(t.getText()) ||
+                            "caso".equals(t.getText()) ||
+                            "seja".equals(t.getText()) ||
+                            "fim_caso".equals(t.getText()) ||
+                            "para".equals(t.getText()) ||
+                            "enquanto".equals(t.getText()) ||
+                            "fim_enquanto".equals(t.getText()) ||
+                            "retorne".equals(t.getText()) ||
+                            "nao".equals(t.getText()) ||
+                            "..".equals(t.getText()) ||
+                            ":".equals(t.getText()) ||
+                            "^".equals(t.getText()) ||
+                            "+".equals(t.getText()) ||
+                            "-".equals(t.getText()) ||
+                            "*".equals(t.getText()) ||
+                            "/".equals(t.getText()) ||
+                            "%".equals(t.getText()) ||
+                            "&".equals(t.getText()) ||
+                            "ou".equals(t.getText()) ||
+                            "e".equals(t.getText()) ||
+                            ">".equals(t.getText()) ||
+                            ">=".equals(t.getText()) ||
+                            "<".equals(t.getText()) ||
+                            "<=".equals(t.getText()) ||
+                            "<>".equals(t.getText()) ||
+                            "=".equals(t.getText()) ||
+                            "(".equals(t.getText()) ||
+                            ")".equals(t.getText()) ||
+                            ".".equals(t.getText()) ||
+                            ",".equals(t.getText()) ||
+                            "[".equals(t.getText()) ||
+                            "]".equals(t.getText()) 
+                            ) {
+                            myWriter.write("<'" + t.getText() + "','" + t.getText() + "'>\n");
+                       }
                     
                     // se nenhuma das condições impostas anteriormente para manipulação
                     // for verdadeira, imprima normalmente o token no arquivo
