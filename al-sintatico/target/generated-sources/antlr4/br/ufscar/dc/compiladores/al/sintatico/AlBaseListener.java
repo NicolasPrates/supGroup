@@ -599,6 +599,18 @@ public class AlBaseListener implements AlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitOp_logico_1(AlParser.Op_logico_1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOp_logico_2(AlParser.Op_logico_2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOp_logico_2(AlParser.Op_logico_2Context ctx) { }
 
 	/**
 	 * {@inheritDoc}

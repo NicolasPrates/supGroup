@@ -17,8 +17,8 @@ public class Principal {
             AlLexer lex = new AlLexer(cs);
             
             // ESCREVE A SAIDA DO ANALISADOR LEXICO
-            /*FileWriter myWriter = new FileWriter(args[1]);
-            Token t = null;*/
+            FileWriter myWriter = new FileWriter(args[1]);
+            Token t = null;
             
             //Iniciando e executando o analisador sintatico
             CommonTokenStream tokens = new CommonTokenStream(lex);
@@ -26,7 +26,7 @@ public class Principal {
             
             //classe de erro customizada
             //recebe o caminho para os arquivos de saída
-            ErrorListener errorListener = new ErrorListener(args[1]);
+            ErrorListener errorListener = new ErrorListener(args[1], lex);
             
             parser.addErrorListener(errorListener);
             parser.programa();
@@ -34,7 +34,7 @@ public class Principal {
             
             // essa variável será usada para parar o loop em caso de erro
             //SAIDA DO ANALISADOR LEXICO
-            /*boolean error = false;
+            /* boolean error = false;
             
             try {
                 while ((t = lex.nextToken()).getType() != Token.EOF && !error) {
@@ -159,7 +159,7 @@ public class Principal {
             finally{
                 myWriter.close();
             }*/
-        }
+        } 
         
         catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);

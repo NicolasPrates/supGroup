@@ -1,6 +1,13 @@
 
 grammar Al;
 
+@lexer::members {
+   public static String grupo="740951 587087 586730 619884";
+   void erroLexico(String mensagem) {
+      throw new ParseCancellationException(mensagem);
+   }
+}
+
 ALGORITMO: 'algoritmo';
 
 FIM_ALGORITMO: 'fim_algoritmo';
@@ -77,8 +84,6 @@ PONTOS:  '..';
 
 DOIS_PONTOS: ':';
 
-CIRCUNFLEXO: '^';
-
 OP_MAIS: '+';
 
 OP_MENOS: '-';
@@ -118,6 +123,8 @@ PONTO: '.';
 ABRE_COLCHETE: '[';
 
 FECHA_COLCHETE: ']';
+
+ESTENDIDO: '^';
 
 /* 
 *    Todo identificador é formado apenas por letras do alfabeto (a a z), por dígitos (0 a 9) e pela sublinha (_);
@@ -176,7 +183,7 @@ UNDEFINED_CHAR: .;
 
 // Analizador sintático 
 
-programa: declaracoes ALGORITMO corpo FIM_ALGORITMO EOF;
+programa: declaracoes ALGORITMO corpo FIM_ALGORITMO EOF | ALGORITMO corpo FIM_ALGORITMO EOF;
 
 declaracoes: decl_local_global*;
 
@@ -198,7 +205,7 @@ tipo_basico: LITERAL | INTEIRO | REAL | LOGICO ;
 
 tipo_basico_ident: tipo_basico | IDENT ;
 
-tipo_estendido: tipo_basico_ident ;
+tipo_estendido: ESTENDIDO? tipo_basico_ident ;
 
 valor_constante: CADEIA | NUM_INT | NUM_REAL | VERDADEIRO | FALSO ;
 
@@ -217,7 +224,7 @@ corpo: declaracao_local* cmd*;
 cmd: cmd_leia | cmd_escreva| cmd_se | cmd_caso | cmd_para | cmd_enquanto |
      cmd_faca | cmd_atribuicao | cmd_chamada | cmd_retorne;
 
-cmd_leia: LEIA ABRE_PARENTESE identificador (VIRGULA identificador)* FECHA_PARENTESE;
+cmd_leia: LEIA ABRE_PARENTESE ESTENDIDO? identificador (VIRGULA ESTENDIDO? identificador)* FECHA_PARENTESE;
 
 cmd_escreva: ESCREVA ABRE_PARENTESE expressao (VIRGULA expressao)* FECHA_PARENTESE;
 
@@ -231,7 +238,7 @@ cmd_enquanto: ENQUANTO expressao FACA cmd* FIM_ENQUANTO;
 
 cmd_faca: FACA cmd* ATE expressao;
 
-cmd_atribuicao: identificador SETA expressao;
+cmd_atribuicao: ESTENDIDO? identificador SETA expressao;
 
 cmd_chamada: IDENT ABRE_PARENTESE expressao (VIRGULA expressao)* FECHA_PARENTESE;
 
@@ -261,7 +268,7 @@ op3: OP_PORCENTAGEM;
 
 parcela: op_unario? parcela_unario | parcela_nao_unario;
 
-parcela_unario: identificador |
+parcela_unario: ESTENDIDO? identificador |
                 IDENT ABRE_PARENTESE expressao (VIRGULA expressao)* FECHA_PARENTESE |
                 NUM_INT |
                 NUM_REAL |
@@ -275,7 +282,7 @@ op_relacional: OP_IGUAL | OP_DIFERENTE | OP_MAIOR_IGUAL | OP_MENOR_IGUAL | OP_MA
 
 expressao: termo_logico (op_logico_1 termo_logico)*;
 
-termo_logico: fator_logico (OP_logico_2 fator_logico)*;
+termo_logico: fator_logico (op_logico_2 fator_logico)*;
 
 fator_logico: NAO? parcela_logica;
 
@@ -283,5 +290,5 @@ parcela_logica: ( VERDADEIRO | FALSO ) | exp_relacional;
 
 op_logico_1: OP_OU;
 
-OP_logico_2: OP_E;
+op_logico_2: OP_E;
     

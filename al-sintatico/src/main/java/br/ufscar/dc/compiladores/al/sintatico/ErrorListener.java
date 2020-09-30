@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Token;
 
 /**
  *
@@ -20,9 +21,10 @@ import org.antlr.v4.runtime.Recognizer;
 public class ErrorListener extends BaseErrorListener {
     
     public FileWriter myWriter;
+    public AlLexer lex;
 
-    public ErrorListener(String file) {
-        
+    public ErrorListener(String file, AlLexer lex) {
+        this.lex = lex;
         try {
             myWriter = new FileWriter(file);
         } catch (IOException ex) {
@@ -35,12 +37,38 @@ public class ErrorListener extends BaseErrorListener {
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
         try{
             try {
-                recognizer.getInputStream().consume();
-                String ident = offendingSymbol.toString();
+
+                Token token= (Token) offendingSymbol;
+                //Pega somente o identificador do objeto
+                String ident = token.getText();
                 
-                //Pega somente o identificador do objeto na posicao  do vetor retornado pelo split()
-                String splits[] = ident.split("'");
-                ident = splits[1];
+                // Tratando a saida dos erros 
+                
+                // Erro lexico (Undefined char)
+                if(token.getType() == 68) {
+                    myWriter.write("Linha " + line + ": " + ident + " - simbolo nao identificado" +"\nFim da compilacao\n");
+                    return;
+                }
+                
+                //Cadeia de literais não fechada
+                if(ident.contains("\"") && !ident.endsWith("\"")) {     
+                    myWriter.write("Linha " + line + ": cadeia literal nao fechada" +"\nFim da compilacao\n" );
+                    return;
+                } 
+                
+                // Comentario não fechado
+                if(ident.contains("{")) {
+                    myWriter.write("Linha " + line + ": comentario nao fechado" + "\nFim da compilacao\n" );
+                    return;
+                };
+                
+                // Adaptando o identificador EOF para a saida esperada eplo corretor
+                if(ident.equals("<EOF>")) {
+                    ident = "EOF";
+                }
+                
+             
+              
                 myWriter.write("Linha " + line +": erro sintatico proximo a " + ident + "\nFim da compilacao\n" );
     
             } 

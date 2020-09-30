@@ -497,4 +497,14 @@ public interface AlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOp_logico_1(AlParser.Op_logico_1Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link AlParser#op_logico_2}.
+	 * @param ctx the parse tree
+	 */
+	void enterOp_logico_2(AlParser.Op_logico_2Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link AlParser#op_logico_2}.
+	 * @param ctx the parse tree
+	 */
+	void exitOp_logico_2(AlParser.Op_logico_2Context ctx);
 }
