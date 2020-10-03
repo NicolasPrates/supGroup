@@ -4,6 +4,7 @@ br/ufscar/dc/compiladores/al/sintatico/AlParser$Parcela_unarioContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_enquantoContext.class
 br/ufscar/dc/compiladores/al/sintatico/ErrorListener.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Numero_intervaloContext.class
+br/ufscar/dc/compiladores/al/sintatico/TabelaDeSimbolos.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_paraContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$ProgramaContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$ConstantesContext.class
@@ -35,12 +36,15 @@ br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_atribuicaoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Declaracao_localContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$TermoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Termo_logicoContext.class
+br/ufscar/dc/compiladores/al/sintatico/AlBaseVisitor.class
 br/ufscar/dc/compiladores/al/sintatico/AlBaseListener.class
+br/ufscar/dc/compiladores/al/sintatico/EntradaTabelaDeSimbolos.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Op_logico_1Context.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$SelecaoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Tipo_estendidoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlLexer.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Item_selecaoContext.class
+br/ufscar/dc/compiladores/al/sintatico/AlVisitor.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Exp_aritmeticaContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_facaContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Fator_logicoContext.class
@@ -48,6 +52,7 @@ br/ufscar/dc/compiladores/al/sintatico/AlParser$DimensaoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Op1Context.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Tipo_basico_identContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Exp_relacionalContext.class
+br/ufscar/dc/compiladores/al/sintatico/Escopos.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Op2Context.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$IdentificadorContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$ParametroContext.class

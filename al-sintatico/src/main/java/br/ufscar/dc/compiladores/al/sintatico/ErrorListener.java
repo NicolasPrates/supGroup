@@ -67,8 +67,7 @@ public class ErrorListener extends BaseErrorListener {
                     ident = "EOF";
                 }
                 
-             
-              
+                // Erros sintaticos
                 myWriter.write("Linha " + line +": erro sintatico proximo a " + ident + "\nFim da compilacao\n" );
     
             } 
