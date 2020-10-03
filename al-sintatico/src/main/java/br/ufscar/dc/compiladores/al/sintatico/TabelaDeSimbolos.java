@@ -5,86 +5,51 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TabelaDeSimbolos {
-
-    private String escopo;
+    
+    public enum TipoAl {
+        CADEIA,
+        INTEIRO,
+        REAL,
+        INVALIDO,
+        BOOL
+    }
+    
     private HashMap<String, EntradaTabelaDeSimbolos> tabelaDeSimbolos;
-
-    public TabelaDeSimbolos(String escopo) {
+    
+    
+    public TabelaDeSimbolos() {
         this.tabelaDeSimbolos = new HashMap<>();
-        this.escopo = escopo;
+    }
+    
+    class EntradaTabelaDeSimbolos {
+
+        public String nome;
+        public TipoAl tipo;
+
+        public EntradaTabelaDeSimbolos(String nome, TipoAl tipo) {
+            this.nome = nome;
+            this.tipo = tipo;
+        }
     }
 
-    public void inserir(String nome, String tipoDado, String tipoToken) {
-        EntradaTabelaDeSimbolos etds = new EntradaTabelaDeSimbolos(nome, tipoDado, tipoToken);
+
+    public void inserir(String nome, TipoAl tipo) {
+        EntradaTabelaDeSimbolos etds = new EntradaTabelaDeSimbolos(nome, tipo);
         this.tabelaDeSimbolos.put(nome, etds);
     }
-
-    public void inserirLista(List<String> nomes, String tipodado, String tipotoken) {
-        for (String s : nomes) {
-            tabelaDeSimbolos.put(s, new EntradaTabelaDeSimbolos(s, tipodado, tipotoken));
-        }
-    }
-
-    /* public boolean existe(String nome) {
-        for (EntradaTabelaDeSimbolos etds : tabelaDeSimbolos) {
-            if (etds.getNome().equals(nome)) {
-                return true;
-            }
-        }
-        return false;
-    } */
-
-    /* @Override
-    public String toString() {
-        String ret = "Escopo: " + this.escopo;
-        for (EntradaTabelaDeSimbolos etds : tabelaDeSimbolos) {
-            ret += "\n   " + etds;
-        }
-        
-        tabelaDeSimbolos.forEach((nome, etds) -> {
-            
-        });
-        
-        for (int i = 0; i < tabelaDeSimbolos.size(); i++) {
-            ret += "\n   " + tabelaDeSimbolos.;
-        }
-        return ret;
-    } */
     
-    public EntradaTabelaDeSimbolos verificar(String nome, double valor) {
-        return tabelaDeSimbolos.get(nome);
+    public boolean existe(String nome) {
+        return tabelaDeSimbolos.containsKey(nome);
     }
 
-
-    /* public String getTypeDado(String nome) {
-        for (EntradaTabelaDeSimbolos etds : tabelaDeSimbolos) {
-            if (etds.getNome().equals(nome)) {
-                return etds.getTipodado();
-            }
+    public void inserirLista(List<String> nomes, TipoAl tipo) {
+        for (String s : nomes) {
+            tabelaDeSimbolos.put(s, new EntradaTabelaDeSimbolos(s, tipo));
         }
-        return null;
-    } */
-
-    //Retorna o escopo associado a tabela
-    public String getType() {
-        if (this.escopo.contains("funcao"))
-            return "funcao";
-        else if (this.escopo.contains("procedimento"))
-            return "procedimento";
-        return "global";
+    }
+    
+    public TipoAl verificar(String nome) {
+        return tabelaDeSimbolos.get(nome).tipo;
     }
 
-    public String getName() {
-        return escopo;
-    }
-
-    //Metodo adicionado para retornar o tipo de uma entrada na tabela de tabelaDeSimbolos
-   /* public String getVarTipo(String nome) {
-        for (EntradaTabelaDeSimbolos etds : tabelaDeSimbolos) {
-            if (etds.getNome().equals(nome)) {
-                return etds.getTipodado();
-            }
-        }
-        return "false";
-    } */
 }

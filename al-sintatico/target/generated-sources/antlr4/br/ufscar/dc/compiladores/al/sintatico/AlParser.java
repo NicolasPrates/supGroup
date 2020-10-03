@@ -443,7 +443,6 @@ public class AlParser extends Parser {
 	}
 
 	public static class VariavelContext extends ParserRuleContext {
-		public IdentificadorContext outrosIdentificadores;
 		public List<IdentificadorContext> identificador() {
 			return getRuleContexts(IdentificadorContext.class);
 		}
@@ -495,7 +494,7 @@ public class AlParser extends Parser {
 				setState(139);
 				match(VIRGULA);
 				setState(140);
-				((VariavelContext)_localctx).outrosIdentificadores = identificador();
+				identificador();
 				}
 				}
 				setState(145);
@@ -2674,9 +2673,6 @@ public class AlParser extends Parser {
 	}
 
 	public static class Exp_aritmeticaContext extends ParserRuleContext {
-		public TermoContext termo1;
-		public TermoContext termo;
-		public List<TermoContext> outrosTermos = new ArrayList<TermoContext>();
 		public List<TermoContext> termo() {
 			return getRuleContexts(TermoContext.class);
 		}
@@ -2716,7 +2712,7 @@ public class AlParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(438);
-			((Exp_aritmeticaContext)_localctx).termo1 = termo();
+			termo();
 			setState(444);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,43,_ctx);
@@ -2727,8 +2723,7 @@ public class AlParser extends Parser {
 					setState(439);
 					op1();
 					setState(440);
-					((Exp_aritmeticaContext)_localctx).termo = termo();
-					((Exp_aritmeticaContext)_localctx).outrosTermos.add(((Exp_aritmeticaContext)_localctx).termo);
+					termo();
 					}
 					} 
 				}
@@ -2750,8 +2745,6 @@ public class AlParser extends Parser {
 	}
 
 	public static class TermoContext extends ParserRuleContext {
-		public FatorContext fator1;
-		public FatorContext outrosFatores;
 		public List<FatorContext> fator() {
 			return getRuleContexts(FatorContext.class);
 		}
@@ -2791,7 +2784,7 @@ public class AlParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(447);
-			((TermoContext)_localctx).fator1 = fator();
+			fator();
 			setState(453);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -2801,7 +2794,7 @@ public class AlParser extends Parser {
 				setState(448);
 				op2();
 				setState(449);
-				((TermoContext)_localctx).outrosFatores = fator();
+				fator();
 				}
 				}
 				setState(455);
@@ -2822,8 +2815,6 @@ public class AlParser extends Parser {
 	}
 
 	public static class FatorContext extends ParserRuleContext {
-		public ParcelaContext parcela1;
-		public ParcelaContext outrasParcelas;
 		public List<ParcelaContext> parcela() {
 			return getRuleContexts(ParcelaContext.class);
 		}
@@ -2863,7 +2854,7 @@ public class AlParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(456);
-			((FatorContext)_localctx).parcela1 = parcela();
+			parcela();
 			setState(462);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -2873,7 +2864,7 @@ public class AlParser extends Parser {
 				setState(457);
 				op3();
 				setState(458);
-				((FatorContext)_localctx).outrasParcelas = parcela();
+				parcela();
 				}
 				}
 				setState(464);

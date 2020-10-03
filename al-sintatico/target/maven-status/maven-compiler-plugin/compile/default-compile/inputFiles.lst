@@ -1,7 +1,11 @@
 /home/vitor/trabalhos-federex/compiladores/al-sintatico/target/generated-sources/antlr4/br/ufscar/dc/compiladores/al/sintatico/AlBaseListener.java
 /home/vitor/trabalhos-federex/compiladores/al-sintatico/target/generated-sources/antlr4/br/ufscar/dc/compiladores/al/sintatico/AlLexer.java
+/home/vitor/trabalhos-federex/compiladores/al-sintatico/src/main/java/br/ufscar/dc/compiladores/al/sintatico/Escopos.java
 /home/vitor/trabalhos-federex/compiladores/al-sintatico/target/generated-sources/antlr4/br/ufscar/dc/compiladores/al/sintatico/AlListener.java
+/home/vitor/trabalhos-federex/compiladores/al-sintatico/src/main/java/br/ufscar/dc/compiladores/al/sintatico/TabelaDeSimbolos.java
+/home/vitor/trabalhos-federex/compiladores/al-sintatico/src/main/java/br/ufscar/dc/compiladores/al/sintatico/AlSemantico.java
 /home/vitor/trabalhos-federex/compiladores/al-sintatico/target/generated-sources/antlr4/br/ufscar/dc/compiladores/al/sintatico/AlBaseVisitor.java
+/home/vitor/trabalhos-federex/compiladores/al-sintatico/src/main/java/br/ufscar/dc/compiladores/al/sintatico/AlSemanticoTipos.java
 /home/vitor/trabalhos-federex/compiladores/al-sintatico/target/generated-sources/antlr4/br/ufscar/dc/compiladores/al/sintatico/AlVisitor.java
 /home/vitor/trabalhos-federex/compiladores/al-sintatico/target/generated-sources/antlr4/br/ufscar/dc/compiladores/al/sintatico/AlParser.java
 /home/vitor/trabalhos-federex/compiladores/al-sintatico/src/main/java/br/ufscar/dc/compiladores/al/sintatico/ErrorListener.java

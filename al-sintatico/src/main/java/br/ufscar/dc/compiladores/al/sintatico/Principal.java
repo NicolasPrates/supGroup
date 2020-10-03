@@ -1,5 +1,6 @@
 package br.ufscar.dc.compiladores.al.sintatico;
 
+import br.ufscar.dc.compiladores.al.sintatico.AlParser.ProgramaContext;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,13 +24,25 @@ public class Principal {
             //Iniciando e executando o analisador sintatico
             CommonTokenStream tokens = new CommonTokenStream(lex);
             AlParser parser = new AlParser(tokens);
-            
             //classe de erro customizada
             //recebe o caminho para os arquivos de saída
             ErrorListener errorListener = new ErrorListener(args[1], lex);
-            
             parser.addErrorListener(errorListener);
-            parser.programa();
+            
+            // ANALISADOR SEMANTICO
+            ProgramaContext arvore = parser.programa();
+            AlSemantico as = new AlSemantico();
+            // as.visitPrograma(arvore);  TODO: sobrescrever o VisitPrograma de classe AlSemantico
+            
+            //Escrevendo erros na saída do compilador
+            AlSemanticoUtils.errosSemanticos.forEach((msg) -> {
+                try {
+                    myWriter.write(msg);
+                } catch (IOException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            
             
             
             // essa variável será usada para parar o loop em caso de erro

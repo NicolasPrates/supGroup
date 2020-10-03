@@ -193,7 +193,7 @@ declaracao_local: DECLARE variavel |
     CONSTANTE IDENT DOIS_PONTOS tipo_basico OP_IGUAL valor_constante |
     TIPOW IDENT DOIS_PONTOS tipo ;
 
-variavel: identificador ( VIRGULA outrosIdentificadores = identificador)* DOIS_PONTOS tipo;
+variavel: identificador ( VIRGULA identificador)* DOIS_PONTOS tipo;
 
 identificador: IDENT (PONTO IDENT)* dimensao ;
 
@@ -254,11 +254,11 @@ numero_intervalo: op_unario? NUM_INT (PONTOS op_unario? NUM_INT)?;
 
 op_unario: OP_MENOS;
 
-exp_aritmetica: termo1 = termo (op1 outrosTermos += termo)*;
+exp_aritmetica: termo (op1 termo)*;
 
-termo: fator1 = fator (op2 outrosFatores = fator)*;
+termo: fator (op2 fator)*;
 
-fator: parcela1 = parcela (op3 outrasParcelas = parcela)*;
+fator: parcela (op3 parcela)*;
 
 op1: OP_MAIS | OP_MENOS;
 
