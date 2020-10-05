@@ -92,7 +92,7 @@ public class AlSemantico extends AlBaseVisitor<Void>{
         
         return null;
     }
-    
+
     @Override
     public Void visitExp_aritmetica(AlParser.Exp_aritmeticaContext ctx) {
         AlSemanticoUtils.verificarTipo(escopos, ctx);
