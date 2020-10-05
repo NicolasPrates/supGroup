@@ -1,29 +1,13 @@
 package br.ufscar.dc.compiladores.al.sintatico;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import br.ufscar.dc.compiladores.al.sintatico.TabelaDeSimbolos.TipoAl;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import org.antlr.v4.runtime.misc.Pair;
 
 public class Escopos {
     private LinkedList<TabelaDeSimbolos> escopos;
-    private LinkedList<List<String>> funcoes_ou_procedimentos;
-    private LinkedList<String> nomes_das_funcoes;
-    private Map<String, List<Pair>> tipos;
-
+    
     public Escopos() {
-        escopos = new LinkedList<>();
-        funcoes_ou_procedimentos = new LinkedList<>();
-        nomes_das_funcoes = new LinkedList<>();
-        tipos = new HashMap<>();
-        List<Pair> tipo_basico = new ArrayList<>();
-        tipos.put("inteiro", tipo_basico);
-        tipos.put("real", tipo_basico);
-        tipos.put("literal", tipo_basico);
-        tipos.put("logico", tipo_basico);
-        
+        escopos = new LinkedList<>(); 
         criarNovoEscopo();
     }
     
@@ -53,9 +37,24 @@ public class Escopos {
         return false;
     }
     
+    public boolean existeNaTabelaAtual(String nome) {
+        TabelaDeSimbolos tabela = this.obterEscopoAtual();
+        return tabela.existe(nome);
+    }
+    
+    public void inserirNaTabelaAtual(String nome, TipoAl tipo) {
+        TabelaDeSimbolos tabela = this.obterEscopoAtual();
+        tabela.inserir(nome, tipo, null);
+    }
+    
+    public void inserirNaTabelaAtual(String nome, TipoAl tipo, TipoAl retorno) {
+        TabelaDeSimbolos tabela = this.obterEscopoAtual();
+        tabela.inserir(nome, tipo, retorno);
+    }
+    
     // Retorna o tipo de um simbolo
     // A implementação padrão de LinkedList percorre a lista começando pelo topo
-    public TabelaDeSimbolos.TipoAl verificar(String nome) {
+    public TipoAl verificar(String nome) {
         for(TabelaDeSimbolos tabela: escopos) {
             return tabela.verificar(nome);
         }

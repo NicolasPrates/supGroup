@@ -13,6 +13,19 @@ public class AlSemanticoUtils {
         errosSemanticos.add(String.format("Erro %d:%d - %s", t.getLine(), t.getCharPositionInLine(), msg));
     }
     
+    public static TabelaDeSimbolos.TipoAl convertStringToTipoAl(String s){
+        TabelaDeSimbolos.TipoAl tipo;
+        switch(s){
+            case "literal": tipo = TabelaDeSimbolos.TipoAl.LITERAL; break;
+            case "real": tipo = TabelaDeSimbolos.TipoAl.REAL; break;
+            case "interio": tipo = TabelaDeSimbolos.TipoAl.INTEIRO; break;
+            case "logico": tipo = TabelaDeSimbolos.TipoAl.LOGICO; break;
+            default: tipo = TabelaDeSimbolos.TipoAl.INVALIDO; break;
+        }
+        
+        return tipo;
+    }
+    
     // RETORNA O TIPO DE UMA EXPRESSAO ARITMETICA
     public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Exp_aritmeticaContext ctx) {
         TabelaDeSimbolos.TipoAl ret = null;
@@ -52,7 +65,7 @@ public class AlSemanticoUtils {
             if(ret == null) {
                 ret = aux;
             } else if (ret != aux && ret != TabelaDeSimbolos.TipoAl.INVALIDO) {
-                adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
+                adicionarErroSemantico(ctx.start, "Fator " +ctx.getText() + "contém tipos incompativeis\n");
                 ret = TabelaDeSimbolos.TipoAl.INVALIDO;
             }
         }
@@ -83,7 +96,6 @@ public class AlSemanticoUtils {
         } else if(ctx.NUM_REAL()!= null) {
             return TabelaDeSimbolos.TipoAl.REAL;
         } else if (ctx.identificador() != null) {
-            
             for (var tk: ctx.identificador().IDENT()) {
                 if (!esc.existe(tk.getText())) {
                     adicionarErroSemantico(tk.getSymbol(), "Variável " +ctx.getText() + " nao declarada \n");
@@ -94,7 +106,7 @@ public class AlSemanticoUtils {
             }
             return ret;
             
-        } else if (!ctx.expressao().isEmpty()) {
+        } else if (ctx.expressao() != null) {
             for(var ex: ctx.expressao()){
                 TabelaDeSimbolos.TipoAl aux = verificarTipo(esc, ex);
                 if(ret == null) {
@@ -136,7 +148,7 @@ public class AlSemanticoUtils {
             if(ret == null) {
                 ret = aux;
             } else if (ret != aux && ret != TabelaDeSimbolos.TipoAl.INVALIDO) {
-                adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
+                adicionarErroSemantico(ctx.start, "Expressão lógica " +ctx.getText() + "contém tipos incompativeis\n");
                 ret = TabelaDeSimbolos.TipoAl.INVALIDO;
             }
         }
@@ -150,7 +162,7 @@ public class AlSemanticoUtils {
             if(ret == null) {
                 ret = aux;
             } else if (ret != aux && ret != TabelaDeSimbolos.TipoAl.INVALIDO) {
-                adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
+                adicionarErroSemantico(ctx.start, "Termo lógico" +ctx.getText() + "contém tipos incompativeis\n");
                 ret = TabelaDeSimbolos.TipoAl.INVALIDO;
             }
         }
@@ -158,22 +170,18 @@ public class AlSemanticoUtils {
     }
 
     private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Fator_logicoContext ctx) {
-        if(ctx.parcela_logica() != null) {
-            return verificarTipo(esc, ctx.parcela_logica());
-        }
-        adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
-        return TabelaDeSimbolos.TipoAl.INVALIDO;
+        return verificarTipo(esc, ctx.parcela_logica());
     }
 
     private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Parcela_logicaContext ctx) {
         if(ctx.FALSO() != null) {
-            return TabelaDeSimbolos.TipoAl.BOOL;
+            return TabelaDeSimbolos.TipoAl.LOGICO;
         } else if (ctx.VERDADEIRO()!= null) {
-            return TabelaDeSimbolos.TipoAl.BOOL;
+            return TabelaDeSimbolos.TipoAl.LOGICO;
         } else if (ctx.exp_relacional() != null) {
             return verificarTipo(esc, ctx.exp_relacional());
         }
-        adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
+        adicionarErroSemantico(ctx.start, "Parcela lógica " +ctx.getText() + "contém tipos incompativeis\n");
         return null;
     }
     
@@ -184,7 +192,7 @@ public class AlSemanticoUtils {
             if(ret == null) {
                 ret = aux;
             } else if (ret != aux && ret != TabelaDeSimbolos.TipoAl.INVALIDO) {
-                adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
+                adicionarErroSemantico(ctx.start, "Expressão relacional " +ctx.getText() + "contém tipos incompativeis\n");
                 ret = TabelaDeSimbolos.TipoAl.INVALIDO;
             }
         }

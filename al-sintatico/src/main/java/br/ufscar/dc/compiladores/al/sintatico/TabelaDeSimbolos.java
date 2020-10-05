@@ -7,49 +7,47 @@ import java.util.List;
 public class TabelaDeSimbolos {
     
     public enum TipoAl {
-        CADEIA,
         INTEIRO,
+        LITERAL,
         REAL,
-        INVALIDO,
-        BOOL
+        LOGICO,
+        CADEIA,
+        PROCEDIMENTO,
+        FUNCAO,
+        INVALIDO
     }
     
-    private HashMap<String, EntradaTabelaDeSimbolos> tabelaDeSimbolos;
+    private HashMap<String, EntradaTabelaDeSimbolos> tabela;
     
     
     public TabelaDeSimbolos() {
-        this.tabelaDeSimbolos = new HashMap<>();
+        this.tabela = new HashMap<>();
     }
     
     class EntradaTabelaDeSimbolos {
 
         public String nome;
         public TipoAl tipo;
+        public TipoAl retorno;
 
-        public EntradaTabelaDeSimbolos(String nome, TipoAl tipo) {
+        public EntradaTabelaDeSimbolos(String nome, TipoAl tipo, TipoAl retorno) {
             this.nome = nome;
             this.tipo = tipo;
+            this.retorno = retorno;
         }
     }
 
-
-    public void inserir(String nome, TipoAl tipo) {
-        EntradaTabelaDeSimbolos etds = new EntradaTabelaDeSimbolos(nome, tipo);
-        this.tabelaDeSimbolos.put(nome, etds);
+    public void inserir(String nome, TipoAl tipo, TipoAl retorno) {
+        EntradaTabelaDeSimbolos etds = new EntradaTabelaDeSimbolos(nome, tipo, retorno);
+        tabela.put(nome, etds);
     }
     
     public boolean existe(String nome) {
-        return tabelaDeSimbolos.containsKey(nome);
-    }
-
-    public void inserirLista(List<String> nomes, TipoAl tipo) {
-        for (String s : nomes) {
-            tabelaDeSimbolos.put(s, new EntradaTabelaDeSimbolos(s, tipo));
-        }
+        return tabela.containsKey(nome);
     }
     
     public TipoAl verificar(String nome) {
-        return tabelaDeSimbolos.get(nome).tipo;
+        return tabela.get(nome).tipo;
     }
 
 }
