@@ -37,6 +37,7 @@ br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_chamadaContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Decl_local_globalContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_atribuicaoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Declaracao_localContext.class
+br/ufscar/dc/compiladores/al/sintatico/ErrosSemanticos.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$TermoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Termo_logicoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlBaseVisitor.class
@@ -50,12 +51,12 @@ br/ufscar/dc/compiladores/al/sintatico/AlVisitor.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Exp_aritmeticaContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_facaContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Fator_logicoContext.class
+br/ufscar/dc/compiladores/al/sintatico/AlSemanticoUtils.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$DimensaoContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Op1Context.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Tipo_basico_identContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Exp_relacionalContext.class
 br/ufscar/dc/compiladores/al/sintatico/Escopos.class
-br/ufscar/dc/compiladores/al/sintatico/AlSemanticoTipos.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Op2Context.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$IdentificadorContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$ParametroContext.class

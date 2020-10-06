@@ -1,0 +1,11 @@
+{ leitura de nome e idade com escrita de mensagem usando estes dados }
+
+algoritmo
+	declare
+		nome: literal
+	declare
+		idade: inteiro
+
+	nome <- idade + idade + nome
+
+fim_algoritmo

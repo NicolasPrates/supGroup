@@ -32,7 +32,7 @@ public class Principal {
             // ANALISADOR SEMANTICO
             ProgramaContext arvore = parser.programa();
             AlSemantico as = new AlSemantico();
-            // as.visitPrograma(arvore);  TODO: sobrescrever o VisitPrograma de classe AlSemantico
+            as.visitPrograma(arvore);  // TODO: sobrescrever o VisitPrograma de classe AlSemantico
             
             //Escrevendo erros na saída do compilador
             AlSemanticoUtils.errosSemanticos.forEach((msg) -> {
