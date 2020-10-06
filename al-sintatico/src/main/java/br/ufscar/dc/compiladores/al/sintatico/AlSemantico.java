@@ -39,7 +39,7 @@ public class AlSemantico extends AlBaseVisitor<Void>{
                 for(var ident: id.IDENT()){
                     String nome = ident.getText();
                     if(escopos.existeNaTabelaAtual(nome)){
-                        AlSemanticoUtils.adicionarErroSemantico(ident.getSymbol(), nome+this.errorMessage);
+                        ErrosSemanticos.identificadorExistente(nome, ident.getSymbol().getLine());
                     }else{
                         escopos.inserirNaTabelaAtual(nome, tipo);
                     }
@@ -52,7 +52,7 @@ public class AlSemantico extends AlBaseVisitor<Void>{
             TipoAl tipo = AlSemanticoUtils.convertStringToTipoAl(strTipo);
             String nome = ctx.IDENT().getText();
             if(escopos.existeNaTabelaAtual(nome)){
-                AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), nome+this.errorMessage);
+                ErrosSemanticos.identificadorExistente(nome, ctx.IDENT().getSymbol().getLine());
             }else{
                 escopos.inserirNaTabelaAtual(nome, tipo);
             }
@@ -62,7 +62,7 @@ public class AlSemantico extends AlBaseVisitor<Void>{
             
             TipoAl tipo = AlSemanticoUtils.verificarTipoDeTipoContext(ctx.tipo());
             if(escopos.existeNaTabelaAtual(nome)){
-                AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), nome+this.errorMessage);
+                ErrosSemanticos.identificadorExistente(nome, ctx.IDENT().getSymbol().getLine());
             }else{
                 escopos.inserirNaTabelaAtual(nome, tipo);
             }
@@ -79,7 +79,7 @@ public class AlSemantico extends AlBaseVisitor<Void>{
             
             //verifica se já existe alguma declaração com esse nome no escopo atual
             if(escopos.existeNaTabelaAtual(nome)){
-                AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), nome+this.errorMessage);
+                ErrosSemanticos.identificadorExistente(nome, ctx.IDENT().getSymbol().getLine());
             }
             else{
                 escopos.inserirNaTabelaAtual(nome, TipoAl.PROCEDIMENTO);
@@ -104,6 +104,18 @@ public class AlSemantico extends AlBaseVisitor<Void>{
         
         return null;
     }
+    
+    @Override
+    public Void visitCorpo(AlParser.CorpoContext ctx) {
+        for (var decLocal: ctx.declaracao_local()) {
+            visitDeclaracao_local(decLocal);
+        }
+        
+        for (var cmd: ctx.cmd()) {
+            visitCmd(cmd);
+        } 
+        return null;
+    }
 
     @Override
     public Void visitRegistro(AlParser.RegistroContext ctx) {
@@ -117,14 +129,22 @@ public class AlSemantico extends AlBaseVisitor<Void>{
             }
             
         }
-        escopos.inserirNaTabelaAtual(nome, tipo, tipo, parametros, atributos);
+        // escopos.inserirNaTabelaAtual(nome, tipo, tipo, parametros, atributos);
+        return null;
     }
 
     @Override
     public Void visitExp_aritmetica(AlParser.Exp_aritmeticaContext ctx) {
         AlSemanticoUtils.verificarTipo(escopos, ctx);
         return super.visitExp_aritmetica(ctx);
-    }    
+    }  
+    
+    
+    @Override
+    public Void visitCmd(AlParser.CmdContext ctx) {
+        visitCmd_atribuicao(ctx.cmd_atribuicao());
+        return null;
+    }
 
     @Override
     public Void visitCmd_chamada(AlParser.Cmd_chamadaContext ctx) {
@@ -141,6 +161,33 @@ public class AlSemantico extends AlBaseVisitor<Void>{
         }
         else{
             AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), "procedimento ou função não declarado");
+        }
+        return null;
+    }
+    
+    @Override
+    public Void visitCmd_atribuicao(AlParser.Cmd_atribuicaoContext ctx) {
+        TabelaDeSimbolos.TipoAl tipoLadoEsquerdo = null;
+        TabelaDeSimbolos.TipoAl tipoLadoDireito;
+        if(escopos.existe(ctx.identificador().getText())) {
+            String nome;
+            for(var ident: ctx.identificador().IDENT()){
+                nome = ident.getText();
+                if (!escopos.existe(nome)){
+                    ErrosSemanticos.identificadorInexistente(nome, ident.getSymbol().getLine());
+                    return null;
+                } else {
+                    tipoLadoEsquerdo = escopos.verificar(nome);
+                }
+            }   
+        }
+        
+        tipoLadoDireito = AlSemanticoUtils.verificarTipo(escopos, ctx.expressao());
+        
+        if(tipoLadoDireito != tipoLadoEsquerdo) {
+            // VERIFICAR COMO PASSAR ESSE ERRO
+            AlSemanticoUtils.adicionarErroSemantico(ctx.SETA().getSymbol(), "Tipos incompativeis");
+            return null;
         }
         return null;
     }

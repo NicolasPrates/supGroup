@@ -12,6 +12,7 @@ public class AlSemanticoUtils {
     
     public static void adicionarErroSemantico(Token t, String msg) {
         errosSemanticos.add(String.format("Erro %d:%d - %s", t.getLine(), t.getCharPositionInLine(), msg));
+        System.out.println("Erro" + t.getLine() + ":" + t.getCharPositionInLine() + " " + msg);
     }
     
     static TipoAl verificarTipoDeTipoContext(AlParser.TipoContext ctx){
@@ -90,7 +91,7 @@ public class AlSemanticoUtils {
     }
 
     // RETORNA O TIPO DE UM TERMO
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.TermoContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.TermoContext ctx) {
         TabelaDeSimbolos.TipoAl ret = null;
         for(var fa: ctx.fator()) {
             TabelaDeSimbolos.TipoAl aux = verificarTipo(esc, fa);
@@ -105,7 +106,7 @@ public class AlSemanticoUtils {
     }
     
     // RETORNA O TIPO DE UM FATOR
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.FatorContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.FatorContext ctx) {
         TabelaDeSimbolos.TipoAl ret = null;
         for(var pa: ctx.parcela()) {
             TabelaDeSimbolos.TipoAl aux = verificarTipo(esc, pa);
@@ -120,7 +121,7 @@ public class AlSemanticoUtils {
     }
 
     // RETORNA O TIPO DE UMA PARCELA
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.ParcelaContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.ParcelaContext ctx) {
         
         if(ctx.parcela_unario() != null){
             return verificarTipo(esc, ctx.parcela_unario());
@@ -133,7 +134,7 @@ public class AlSemanticoUtils {
     }
 
     // RETORNA O TIPO DE UMA PARCELA UNARIO
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Parcela_unarioContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Parcela_unarioContext ctx) {
         TabelaDeSimbolos.TipoAl ret = null;
         
         if(ctx.NUM_INT() != null) {
@@ -169,7 +170,7 @@ public class AlSemanticoUtils {
     }
     
     // RETORNA O TIPO DE UMA PARCELA NAO UNARIA
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Parcela_nao_unarioContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Parcela_nao_unarioContext ctx) {
         if(ctx.CADEIA() != null) {
             return TabelaDeSimbolos.TipoAl.CADEIA;
         } else if (ctx.identificador() != null) {
@@ -188,7 +189,7 @@ public class AlSemanticoUtils {
         return TabelaDeSimbolos.TipoAl.INVALIDO;
     }
 
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.ExpressaoContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.ExpressaoContext ctx) {
         TabelaDeSimbolos.TipoAl ret = null;
         for(var tl: ctx.termo_logico()) {
             TabelaDeSimbolos.TipoAl aux = verificarTipo(esc, tl);
@@ -202,7 +203,7 @@ public class AlSemanticoUtils {
         return ret;
     }
 
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Termo_logicoContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Termo_logicoContext ctx) {
         TabelaDeSimbolos.TipoAl ret = null;
         for(var fl: ctx.fator_logico()) {
             TabelaDeSimbolos.TipoAl aux = verificarTipo(esc, fl);
@@ -216,11 +217,11 @@ public class AlSemanticoUtils {
         return ret;
     }
 
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Fator_logicoContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Fator_logicoContext ctx) {
         return verificarTipo(esc, ctx.parcela_logica());
     }
 
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Parcela_logicaContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Parcela_logicaContext ctx) {
         if(ctx.FALSO() != null) {
             return TabelaDeSimbolos.TipoAl.LOGICO;
         } else if (ctx.VERDADEIRO()!= null) {
@@ -232,7 +233,7 @@ public class AlSemanticoUtils {
         return null;
     }
     
-    private static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Exp_relacionalContext ctx) {
+    public static TabelaDeSimbolos.TipoAl verificarTipo(Escopos esc, AlParser.Exp_relacionalContext ctx) {
         TabelaDeSimbolos.TipoAl ret = null;
         for(var ea: ctx.exp_aritmetica()) {
             TabelaDeSimbolos.TipoAl aux = verificarTipo(esc, ea);

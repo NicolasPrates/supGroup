@@ -19,6 +19,7 @@ public class ErrosSemanticos {
 
     public static void atribuicaoIncompativel(String variavel, int linha) {
         erros_semanticos += "Linha " + linha + ": atribuicao nao compativel para " + variavel + "\n";
+        System.out.println("Linha " + linha + ": atribuicao nao compativel para " + variavel + "\n");
     }
 
     public static void parametrosIncompativeis(String funcao, int linha) {
