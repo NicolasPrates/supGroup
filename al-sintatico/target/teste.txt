@@ -6,6 +6,6 @@ algoritmo
 	declare
 		idade: inteiro
 
-	nome <- idade + idade + nome
+	nome <- " 4"
 
 fim_algoritmo
