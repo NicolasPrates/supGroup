@@ -6,6 +6,7 @@
 package br.ufscar.dc.compiladores.al.sintatico;
 
 import br.ufscar.dc.compiladores.al.sintatico.TabelaDeSimbolos.TipoAl;
+import java.util.HashMap;
 
 /**
  *
@@ -17,6 +18,7 @@ public class AlSemantico extends AlBaseVisitor<Void>{
     
     Escopos escopos;
     String errorMessage = " já esta sendo usado no escopo atual";
+
     
     @Override
     public Void visitPrograma(AlParser.ProgramaContext ctx) {        
@@ -55,17 +57,17 @@ public class AlSemantico extends AlBaseVisitor<Void>{
                 escopos.inserirNaTabelaAtual(nome, tipo);
             }
         }
-        else if(ctx.TIPOW() != null){
-            String strTipo = ctx.tipo().getText();
-            TipoAl tipo = AlSemanticoUtils.convertStringToTipoAl(strTipo);
+        else{
             String nome = ctx.IDENT().getText();
+            
+            TipoAl tipo = AlSemanticoUtils.verificarTipoDeTipoContext(ctx.tipo());
             if(escopos.existeNaTabelaAtual(nome)){
                 AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), nome+this.errorMessage);
             }else{
                 escopos.inserirNaTabelaAtual(nome, tipo);
             }
+          
         }
-        
         return null;
     }
 
@@ -74,23 +76,48 @@ public class AlSemantico extends AlBaseVisitor<Void>{
         // procedimentos não retornam dados, isso é, basta verificar se o nome esta disponível
         if(ctx.PROCEDIMENTO() != null){
             String nome = ctx.IDENT().getText();
+            
+            //verifica se já existe alguma declaração com esse nome no escopo atual
             if(escopos.existeNaTabelaAtual(nome)){
                 AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), nome+this.errorMessage);
-            }else{
+            }
+            else{
                 escopos.inserirNaTabelaAtual(nome, TipoAl.PROCEDIMENTO);
+
+                // se houver parâmetros precisamos salvar os tipos deles
+                if(ctx.parametros() != null){
+                    for(var p: ctx.parametros().parametro()){
+                        String tipo = p.tipo_estendido().getText();
+                        for(var id: p.identificador()){
+                            if(AlSemanticoUtils.identificadorExiste(escopos, id)){
+                                // não precisa adicionar erro semantico por que a função identificador existe já adiciona
+                            }
+                        }
+                    }
+                }
             }
         }
         else{
-            String nome = ctx.IDENT().getText();
-            if(escopos.existeNaTabelaAtual(nome)){
-                AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), nome+this.errorMessage);
-            }else{
-                TipoAl retorno = AlSemanticoUtils.convertStringToTipoAl(ctx.tipo_estendido().getText());
-                escopos.inserirNaTabelaAtual(nome, TipoAl.FUNCAO, retorno);
-            }
+            
         }
+         
         
         return null;
+    }
+
+    @Override
+    public Void visitRegistro(AlParser.RegistroContext ctx) {
+        HashMap<String, TipoAl> atributos = new HashMap<>();
+        for(var v: ctx.variavel()){
+            TipoAl tipo = AlSemanticoUtils.verificarTipoDeTipoContext(v.tipo());
+            for(var id: v.identificador()){
+                String nome = id.ident1.getText();
+                // temos o nome e o tipo, vamos adicionar esse atributo ao hashmap
+                atributos.put(nome, tipo);
+            }
+            
+        }
+        escopos.inserirNaTabelaAtual(nome, tipo, tipo, parametros, atributos);
     }
 
     @Override
@@ -98,5 +125,25 @@ public class AlSemantico extends AlBaseVisitor<Void>{
         AlSemanticoUtils.verificarTipo(escopos, ctx);
         return super.visitExp_aritmetica(ctx);
     }    
+
+    @Override
+    public Void visitCmd_chamada(AlParser.Cmd_chamadaContext ctx) {
+        String nome = ctx.IDENT().getText();
+        if(escopos.existe(nome)){
+            // é procedimento ou função ?
+            if(escopos.verificar(nome) == TipoAl.PROCEDIMENTO){
+                //parametros
+                
+            }
+            else{
+                // parametros e retorno
+            }
+        }
+        else{
+            AlSemanticoUtils.adicionarErroSemantico(ctx.IDENT().getSymbol(), "procedimento ou função não declarado");
+        }
+        return null;
+    }
+    
     
 }

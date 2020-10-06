@@ -1,6 +1,7 @@
 
 package br.ufscar.dc.compiladores.al.sintatico;
 
+import br.ufscar.dc.compiladores.al.sintatico.TabelaDeSimbolos.TipoAl;
 import java.util.ArrayList;
 import java.util.List;
 import org.antlr.v4.runtime.Token;
@@ -11,6 +12,52 @@ public class AlSemanticoUtils {
     
     public static void adicionarErroSemantico(Token t, String msg) {
         errosSemanticos.add(String.format("Erro %d:%d - %s", t.getLine(), t.getCharPositionInLine(), msg));
+    }
+    
+    static TipoAl verificarTipoDeTipoContext(AlParser.TipoContext ctx){
+        
+        if(ctx.registro() != null){
+            return TipoAl.REGISTRO;
+        }
+        else{
+            if(ctx.tipo_estendido().ESTENDIDO() != null){
+                // é um ponteiro
+                return TipoAl.PONTEIRO;
+            }
+            else{
+                // não é um ponteiro
+                return convertStringToTipoAl(ctx.tipo_estendido().tipo_basico_ident().getText());
+            }
+        }
+    }
+    
+    public static boolean identificadorExiste(Escopos esc, AlParser.IdentificadorContext ctx){
+        boolean valid = true;
+        String idName = ctx.ident1.getText();
+        
+        // verificar se o primeiro nome do identificador existe
+        if(esc.existe(idName)){
+            // se houverem mais identificadores separados por ponto
+            if(!ctx.ident2.isEmpty()){
+                // verificar a cadeia de atributos
+                Token base = ctx.ident1;
+                for( var attr: ctx.ident2){
+                    // if base não tem atributo
+                    //  adicionarErroSemantico(ctx.ident1, "base.getText()" + não tem atributo " + attr.gettext());
+                    // else
+                    //  base = attr
+                    
+                }
+            }
+            else{
+                return valid;
+            }
+        }
+        else{
+            adicionarErroSemantico(ctx.ident1, idName+" variavel não declarada sendo passada como parametro não existe");
+            valid = false;
+        }
+        return valid;
     }
     
     public static TabelaDeSimbolos.TipoAl convertStringToTipoAl(String s){

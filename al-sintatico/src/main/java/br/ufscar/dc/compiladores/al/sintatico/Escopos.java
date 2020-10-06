@@ -1,6 +1,7 @@
 package br.ufscar.dc.compiladores.al.sintatico;
 
 import br.ufscar.dc.compiladores.al.sintatico.TabelaDeSimbolos.TipoAl;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Escopos {
@@ -44,12 +45,17 @@ public class Escopos {
     
     public void inserirNaTabelaAtual(String nome, TipoAl tipo) {
         TabelaDeSimbolos tabela = this.obterEscopoAtual();
-        tabela.inserir(nome, tipo, null);
+        tabela.inserir(nome, tipo, null, null, null);
     }
     
     public void inserirNaTabelaAtual(String nome, TipoAl tipo, TipoAl retorno) {
         TabelaDeSimbolos tabela = this.obterEscopoAtual();
-        tabela.inserir(nome, tipo, retorno);
+        tabela.inserir(nome, tipo, retorno, null, null);
+    }
+    
+    public void inserirNaTabelaAtual(String nome, TipoAl tipo, TipoAl retorno, HashMap parametros, HashMap atributos) {
+        TabelaDeSimbolos tabela = this.obterEscopoAtual();
+        tabela.inserir(nome, tipo, retorno, parametros, atributos);
     }
     
     // Retorna o tipo de um simbolo

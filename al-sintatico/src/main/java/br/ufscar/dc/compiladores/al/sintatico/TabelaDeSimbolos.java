@@ -1,8 +1,6 @@
 package br.ufscar.dc.compiladores.al.sintatico;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class TabelaDeSimbolos {
     
@@ -14,6 +12,8 @@ public class TabelaDeSimbolos {
         CADEIA,
         PROCEDIMENTO,
         FUNCAO,
+        REGISTRO,
+        PONTEIRO,
         INVALIDO
     }
     
@@ -28,17 +28,21 @@ public class TabelaDeSimbolos {
 
         public String nome;
         public TipoAl tipo;
+        public HashMap<Integer, TipoAl> parametros;
+        public HashMap<String, TipoAl> atributos;
         public TipoAl retorno;
 
-        public EntradaTabelaDeSimbolos(String nome, TipoAl tipo, TipoAl retorno) {
+        public EntradaTabelaDeSimbolos(String nome, TipoAl tipo, TipoAl retorno, HashMap parametros, HashMap atributos) {
             this.nome = nome;
             this.tipo = tipo;
             this.retorno = retorno;
+            this.atributos = atributos;
+            this.parametros = parametros;
         }
     }
-
-    public void inserir(String nome, TipoAl tipo, TipoAl retorno) {
-        EntradaTabelaDeSimbolos etds = new EntradaTabelaDeSimbolos(nome, tipo, retorno);
+    
+    public void inserir(String nome, TipoAl tipo, TipoAl retorno, HashMap parametros, HashMap atributos) {
+        EntradaTabelaDeSimbolos etds = new EntradaTabelaDeSimbolos(nome, tipo, retorno, parametros, atributos);
         tabela.put(nome, etds);
     }
     
@@ -49,5 +53,4 @@ public class TabelaDeSimbolos {
     public TipoAl verificar(String nome) {
         return tabela.get(nome).tipo;
     }
-
 }
