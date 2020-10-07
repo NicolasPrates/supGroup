@@ -519,12 +519,15 @@ public class AlParser extends Parser {
 	}
 
 	public static class IdentificadorContext extends ParserRuleContext {
+		public Token ident1;
+		public Token IDENT;
+		public List<Token> ident2 = new ArrayList<Token>();
+		public DimensaoContext dimensao() {
+			return getRuleContext(DimensaoContext.class,0);
+		}
 		public List<TerminalNode> IDENT() { return getTokens(AlParser.IDENT); }
 		public TerminalNode IDENT(int i) {
 			return getToken(AlParser.IDENT, i);
-		}
-		public DimensaoContext dimensao() {
-			return getRuleContext(DimensaoContext.class,0);
 		}
 		public List<TerminalNode> PONTO() { return getTokens(AlParser.PONTO); }
 		public TerminalNode PONTO(int i) {
@@ -557,7 +560,7 @@ public class AlParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(149);
-			match(IDENT);
+			((IdentificadorContext)_localctx).ident1 = match(IDENT);
 			setState(154);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -567,7 +570,8 @@ public class AlParser extends Parser {
 				setState(150);
 				match(PONTO);
 				setState(151);
-				match(IDENT);
+				((IdentificadorContext)_localctx).IDENT = match(IDENT);
+				((IdentificadorContext)_localctx).ident2.add(((IdentificadorContext)_localctx).IDENT);
 				}
 				}
 				setState(156);

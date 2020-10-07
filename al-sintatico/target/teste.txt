@@ -4,8 +4,8 @@ algoritmo
 	declare
 		nome: literal
 	declare
-		idade: inteiro
+		idade: logico
 
-	nome <- " 4"
+	idade <- 2
 
 fim_algoritmo
