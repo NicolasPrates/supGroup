@@ -120,12 +120,6 @@ public class AlLexer extends Lexer {
 	}
 
 
-	   public static String grupo="740951 587087 586730 619884";
-	   void erroLexico(String mensagem) {
-	      throw new ParseCancellationException(mensagem);
-	   }
-
-
 	public AlLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
