@@ -4,6 +4,7 @@ br/ufscar/dc/compiladores/al/sintatico/AlParser$Parcela_unarioContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_enquantoContext.class
 br/ufscar/dc/compiladores/al/sintatico/ErrorListener.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Numero_intervaloContext.class
+br/ufscar/dc/compiladores/al/sintatico/TabelaDeSimbolos$tipoBasico.class
 br/ufscar/dc/compiladores/al/sintatico/TabelaDeSimbolos.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$Cmd_paraContext.class
 br/ufscar/dc/compiladores/al/sintatico/AlParser$ProgramaContext.class
