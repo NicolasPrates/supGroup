@@ -16,6 +16,20 @@ public class AlSemanticoUtils {
         System.out.println("Erro" + t.getLine() + ":" + t.getCharPositionInLine() + " " + msg);
     }
     
+    static TabelaDeSimbolos.EntradaTabelaDeSimbolos pegarTipoPersonalizado(Escopos esc, AlParser.TipoContext ctx) {
+        String id = ctx.tipo_estendido().tipo_basico_ident().IDENT().getText();
+        
+        if(!esc.existe(id)){
+            // tipo personalizado não existe na tabela de síbolos
+            ErrosSemanticos.tipoInexistente(id, ctx.tipo_estendido().tipo_basico_ident().IDENT().getSymbol().getLine());
+        }
+        else{
+            TabelaDeSimbolos.EntradaTabelaDeSimbolos entrada = esc.pegarEntradaDaTabela(id);
+            return entrada;
+        }
+        return null;
+    }
+    
     static TipoAl verificarTipoDeTipoContext(Escopos esc, AlParser.TipoContext ctx){
         
         if(ctx.registro() != null){
@@ -34,6 +48,7 @@ public class AlSemanticoUtils {
                     if(!esc.existe(id)){
                         // alias não esta na tabela de símbolso
                         ErrosSemanticos.tipoInexistente(id, ctx.tipo_estendido().tipo_basico_ident().IDENT().getSymbol().getLine());
+                        return TipoAl.INVALIDO;
                     }else{
                         TabelaDeSimbolos.EntradaTabelaDeSimbolos entrada = esc.pegarEntradaDaTabela(id);
                         if(entrada.tipo == TipoAl.TIPO){
@@ -75,37 +90,44 @@ public class AlSemanticoUtils {
     // função para identificar se o registro possui os atributos
     public static TipoAl tipoDoIdentificador(Escopos esc, AlParser.IdentificadorContext ctx){
         String idName = ctx.ident1.getText();
-        
+        System.out.println("verificar se o primeiro identificador existe: " + idName);
+        String target = idName;
         // verificar se o primeiro nome do identificador existe
         if(esc.existe(idName)){
+            System.out.println(idName + "existe");
             // se houverem mais identificadores separados por ponto
             if(!ctx.ident2.isEmpty()){
+                System.out.println("há mais identificadores");
                 Token base = ctx.ident1;
                 TipoAl tipo_final = null;
                 
-                
+                System.out.println("Loop abaixo");
                 for( var ident: ctx.ident2 ){
+                    target += "."+ident.getText();
+                    System.out.println("base: " + base.getText());
                     // pega os atributos da base
                     HashMap<String, TipoAl> atributos_da_base = esc.pegarAtributosDoRegistro(base.getText());
                     
                     // se atributos são nulos
                     if(atributos_da_base == null){
+                        System.out.println("atributos é null");
                         // esse registro não possui esse atributo
-                        // ErrosSemanticos.identificadorInexistente(, tk.getSymbol().getLine());
+                        ErrosSemanticos.identificadorInexistente(target, ctx.ident1.getLine());
                         return TipoAl.INVALIDO;
                     }
-                    
                     // se base não tem esse atributo
                     else if(atributos_da_base.get(ident.getText()) != null){
+                        System.out.println("achei o atributo");
                         base = ident;
                         tipo_final = atributos_da_base.get(ident.getText());
                     }
                     else{
                         // esse registro não possui esse atributo
-                        // ErrosSemanticos.identificadorInexistente(, tk.getSymbol().getLine());
+                        ErrosSemanticos.identificadorInexistente(target, ctx.ident1.getLine());
                         return TipoAl.INVALIDO;
                     }
                 }
+                System.out.println("tipo final: " + tipo_final.name());
                 return tipo_final;
             }
             else{
@@ -114,7 +136,7 @@ public class AlSemanticoUtils {
             }
         }
         else{
-            ErrosSemanticos.identificadorInexistente(idName, ctx.ident1.getLine());
+            ErrosSemanticos.identificadorInexistente(ctx.getText(), ctx.ident1.getLine());
             return TipoAl.INVALIDO;
         }
     }
@@ -225,16 +247,7 @@ public class AlSemanticoUtils {
         } else if (ctx.CADEIA() != null) {
             return TabelaDeSimbolos.TipoAl.LITERAL;
         } else if (ctx.identificador() != null) {
-            for (var tk: ctx.identificador().IDENT()) {
-                if (!esc.existe(tk.getText())) {
-                    // adicionarErroSemantico(tk.getSymbol(), "Variável " +ctx.getText() + " nao declarada \n");
-                    ErrosSemanticos.identificadorInexistente(tk.getText(), tk.getSymbol().getLine());
-                    ret = TabelaDeSimbolos.TipoAl.INVALIDO;
-                } else {
-                    ret = esc.verificar(tk.getText());
-                }
-            }
-            return ret;
+            return tipoDoIdentificador(esc, ctx.identificador());
             
         } else if (ctx.expressao() != null) {
             for(var ex: ctx.expressao()){
@@ -242,12 +255,10 @@ public class AlSemanticoUtils {
                 if(ret == null) {
                     ret = aux;
                 } else if (ret != aux && ret != TabelaDeSimbolos.TipoAl.INVALIDO) {
-                    // adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
                     ret = TabelaDeSimbolos.TipoAl.INVALIDO;
                 } 
             }
         }
-        // adicionarErroSemantico(ctx.start, "Termo " +ctx.getText() + "contém tipos incompativeis\n");
         return ret;
     }
     

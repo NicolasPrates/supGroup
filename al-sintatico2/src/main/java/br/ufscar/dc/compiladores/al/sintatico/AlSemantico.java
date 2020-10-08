@@ -50,14 +50,21 @@ public class AlSemantico extends AlBaseVisitor<Void>{
                                 escopos.inserirNaTabelaAtual(nome, tipo, tipo, null, atributos);
                             }
                         }
+                        // se estou declarando uma variável de um tipo personalizado preciso saber qual tipo é esse
+                        else if(tipo == TipoAl.TIPO){
+                            TabelaDeSimbolos.EntradaTabelaDeSimbolos entrada_do_tipo = AlSemanticoUtils.pegarTipoPersonalizado(escopos, ctx.variavel().tipo());
+                            // copiar para a tabela
+                            escopos.inserirNaTabelaAtual(nome, entrada_do_tipo.retorno, null, null, entrada_do_tipo.atributos);
+                            System.err.println(nome + " foi declarado usando um tipo personalizado");
+                        }
                         else{
                             escopos.inserirNaTabelaAtual(nome, tipo);
                             System.err.println(nome + " foi declarado");
-                            escopos.imprimirTabelaAtual();
                         }
                     }
                 }
             }
+            escopos.imprimirTabelaAtual();
         }
         else if(ctx.CONSTANTE() != null){
             String strTipo = ctx.tipo_basico().getText();

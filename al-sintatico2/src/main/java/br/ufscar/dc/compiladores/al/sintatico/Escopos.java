@@ -79,13 +79,13 @@ public class Escopos {
     }
     
     public HashMap<String, TipoAl> pegarAtributosDoRegistro(String nome){
-        HashMap<String, TipoAl> response = new HashMap<>();
         for(TabelaDeSimbolos tabela: escopos) {
-            if(tabela.existeRegistro(nome)) {
+            if(tabela.existe(nome)) {
                 return tabela.pegarAtributosDoRegistro(nome);
             }
         }
-        return response;
+        
+        return null;
     }
     
     public TabelaDeSimbolos.EntradaTabelaDeSimbolos pegarEntradaDaTabela(String nome){

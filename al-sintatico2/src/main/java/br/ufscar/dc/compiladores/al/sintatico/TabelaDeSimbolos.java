@@ -19,15 +19,7 @@ public class TabelaDeSimbolos {
     }
 
     public HashMap<String, TipoAl> pegarAtributosDoRegistro(String nome) {
-        HashMap<String, TipoAl> response = new HashMap<>();
-        for (Map.Entry<String, EntradaTabelaDeSimbolos> entry : tabela.entrySet()) {
-            String entrada_nome = entry.getKey();
-            EntradaTabelaDeSimbolos entrada_valor = entry.getValue();
-            if(entrada_nome == nome){ 
-                response = entrada_valor.atributos;
-            }
-        }
-        return response;
+        return tabela.get(nome).atributos; 
     }
 
     public EntradaTabelaDeSimbolos PegarEntrada(String nome) {
